@@ -23,6 +23,8 @@ namespace Trade.PlanetsMechanics
         {
             Random.InitState(RandomizingSeed);
             PlanetsData();
+            //ONLY FOR TEST
+            planetsStats.SaveData();
         }
 
         public void PlanetsData()
