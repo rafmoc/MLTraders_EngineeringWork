@@ -68,31 +68,31 @@ public class MLTrader : Agent
 
         if (firstGood != 0)
         {
-            if (buyingTurn) {  } //Buy
-            else            {  } //Sell
+            if (buyingTurn) { Buy(0 + tradingIndex, firstGood); } //Buy
+            else            { Sell(0 + tradingIndex, firstGood); } //Sell
         }
         if (secondGood != 0)
         {
-            if (buyingTurn) { } //Buy
-            else            { } //Sell
+            if (buyingTurn) { Buy(1 + tradingIndex, secondGood); } //Buy
+            else            { Sell(1 + tradingIndex, secondGood); } //Sell
         }
         if (thirdGood != 0)
         {
-            if (buyingTurn) { } //Buy
-            else            { } //Sell
+            if (buyingTurn) { Buy(2 + tradingIndex, thirdGood); } //Buy
+            else            { Sell(2 + tradingIndex, thirdGood); } //Sell
         }
 
         if (firstGood + secondGood + thirdGood == 0)
         {
             if(buyingTurn)
             {
-                skipping[1]++; //skipping buy
-                AddReward(-0.002f);
+                skipping[1]++;      //skipping buy
+                AddReward(-0.002f); //small penalty for not doing any business
             }
             else
             {
-                skipping[0]++; //skipping sell
-                AddReward(-0.002f);
+                skipping[0]++;      //skipping sell
+                AddReward(-0.002f); //small penalty for not doing any business
             }
         }
 
@@ -109,12 +109,13 @@ public class MLTrader : Agent
             {
                 if(StartingCredits < Credits)
                 {
-                    //BigReward
+                    AddReward(0.4f);
+                    AddReward(0.05f * (int)((Credits - StartingCredits) / 200));
                     earnedCredits[2]++; //Earned
                 }
                 else
                 {
-                    //SmallReward
+                    AddReward(0.1f - Mathf.Clamp(0.005f * (int)((StartingCredits - Credits) / 200), -100f, 0.2f));
                     earnedCredits[0]++; //Lost
                 }
             }
@@ -123,7 +124,9 @@ public class MLTrader : Agent
                 earnedCredits[1]++; //Same credits
             }
 
-            //Here sell remaining goods. 
+            Sell(0 + tradingIndex, tradingGoods[0 + tradingIndex].Quantity);
+            Sell(1 + tradingIndex, tradingGoods[1 + tradingIndex].Quantity);
+            Sell(2 + tradingIndex, tradingGoods[2 + tradingIndex].Quantity);
 
             tradeBalance += Credits - StartingCredits;
             EndEpisode();
@@ -156,5 +159,64 @@ public class MLTrader : Agent
         Credits = StartingCredits;
         StartingCredits = 30000 + Random.Range(-10000, 10001);              //Some random but big amount of starting credits
         simplifiedInteractions.MoveToPlanet(transform, planet, flySpeed);   //Move agent ship to planet he is on
+    }
+
+    private void Buy(int tradingGood, int amount)
+    {
+        planetTradingGoods = planetsStats.planets[planet].tradingGoods[tradingGood]; //Take newest data about goods on planet
+
+        if (planetTradingGoods.Quantity >= amount && planetTradingGoods.ActualPrice * amount <= Credits)
+        {
+            planetTradingGoods.Quantity -= amount;
+            Credits -= planetTradingGoods.ActualPrice * amount;
+            tradingGoods[tradingGood].Quantity += amount;
+
+            //Calculating boughtPrice
+            boughtPrice[tradingGood - tradingIndex] = ((boughtPrice[tradingGood - tradingIndex] * boughtAmount[tradingGood - tradingIndex]) + (planetTradingGoods.ActualPrice * amount)) / (boughtAmount[tradingGood - tradingIndex] + amount);
+            boughtAmount[tradingGood - tradingIndex] += amount;
+        }
+        else //Forbiden move. Reset Agent and add -1 reward.
+        {
+            AddReward(-1f);
+            Debug.Log("Failed Buy");
+            failedBuy++;
+
+            Sell(0 + tradingIndex, tradingGoods[0 + tradingIndex].Quantity);
+            Sell(1 + tradingIndex, tradingGoods[1 + tradingIndex].Quantity);
+            Sell(2 + tradingIndex, tradingGoods[2 + tradingIndex].Quantity);
+
+            EndEpisode();
+        }
+    }
+    private void Sell(int tradingGood, int amount)
+    {
+        planetTradingGoods = planetsStats.planets[planet].tradingGoods[tradingGood]; //Take newest data about goods on planet
+
+        if (tradingGoods[tradingGood].Quantity >= amount)
+        {
+            planetTradingGoods.Quantity += amount;
+            Credits += planetTradingGoods.ActualPrice * amount;
+            tradingGoods[tradingGood].Quantity -= amount;
+
+            products[tradingGood]++; picked[tradingGood - tradingIndex]++;
+
+            //Calculating boughtPrice
+            boughtAmount[tradingGood - tradingIndex] -= amount;
+            if (boughtAmount[tradingGood - tradingIndex] == 0)
+            {
+                boughtPrice[tradingGood - tradingIndex] = 0;
+            }
+        }
+        else //Forbiden move. Reset Agent and add -1 reward.
+        {
+            AddReward(-1f);
+            Debug.Log("Failed Sell");
+
+            Sell(0 + tradingIndex, tradingGoods[0 + tradingIndex].Quantity);
+            Sell(1 + tradingIndex, tradingGoods[1 + tradingIndex].Quantity);
+            Sell(2 + tradingIndex, tradingGoods[2 + tradingIndex].Quantity);
+
+            EndEpisode();
+        }
     }
 }
