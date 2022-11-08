@@ -14,9 +14,9 @@ public class MLTrader : Agent
     private PlanetsStats planetsStats;
     [SerializeField]
     private SimplifiedInteractionsML simplifiedInteractions;
-    [SerializeField]
     [Tooltip("0 - Resources, 3 - Supply, 6 - luxury")]
     public int tradingIndex;
+
     public float flySpeed;
     public int planet;
     public int StartingCredits;
@@ -45,16 +45,47 @@ public class MLTrader : Agent
         sensor.AddObservation(StartingCredits);
         sensor.AddObservation(Credits);
         sensor.AddObservation(buyingTurn);
-        sensor.AddOneHotObservation(planet, 6);
-        for(int i = tradingIndex; i < tradingIndex + 3; i++)
+        sensor.AddOneHotObservation(planet, 6);                 //Planet number we are on
+        for(int i = tradingIndex; i < tradingIndex + 3; i++)    //everything about planet we are on
         {
             sensor.AddObservation(planetsStats.planets[planet].tradingGoods[i].Quantity);
             sensor.AddObservation(planetsStats.planets[planet].tradingGoods[i].ActualPrice);
             sensor.AddObservation(tradingGoods[i].Quantity);
         }
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++) //If bought any goods - for how much it was bought
         {
             sensor.AddObservation(boughtPrice[i]);
+        }
+    }
+
+    public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
+    {
+        actionMask.SetActionEnabled(0, planet, false); //Masking planet we are on. Trader MUST choose other planet to travel too.
+
+        //Masking all forbiden actions
+        if (buyingTurn)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                planetTradingGoods = planetsStats.planets[planet].tradingGoods[tradingIndex + j];
+
+                int maskingValue = Math.Min((((Credits - planetTradingGoods.ActualPrice - 1) / 3) / planetTradingGoods.ActualPrice), planetTradingGoods.Quantity);
+
+                for (int i = 30; i > maskingValue; i--)
+                {
+                    actionMask.SetActionEnabled(1 + j, i, false);
+                }
+            }
+        }
+        else
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                for (int i = 30; i > tradingGoods[tradingIndex + j].Quantity; i--)
+                {
+                    actionMask.SetActionEnabled(1 + j, i, false);
+                }
+            }
         }
     }
 
