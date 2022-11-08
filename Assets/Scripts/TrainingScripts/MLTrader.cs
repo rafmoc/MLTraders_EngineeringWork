@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Trade.PlanetsData;
 using Unity.MLAgents;
@@ -30,6 +29,15 @@ public class MLTrader : Agent
     public bool buyingTurn;
     public TradingGoods planetTradingGoods;
 
+    //---- For logs only
+    public int[] products = new int[9];
+    public int[] picked = new int[3];
+    public int[] earnedCredits = new int[3]; //0 - lost, 1 - same, 2 - earned
+    public int[] skipping = new int[2]; //selling / buying
+    public int[] planetsTraveled = new int[6];
+    public int failedBuy = 0;
+    public int tradeBalance = 0;
+    //----
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -60,24 +68,30 @@ public class MLTrader : Agent
 
         if (firstGood != 0)
         {
-            //Then buy / sell
+            if (buyingTurn) {  } //Buy
+            else            {  } //Sell
         }
         if (secondGood != 0)
         {
-            //Then buy / sell
+            if (buyingTurn) { } //Buy
+            else            { } //Sell
         }
         if (thirdGood != 0)
         {
-            //Then buy / sell
+            if (buyingTurn) { } //Buy
+            else            { } //Sell
         }
+
         if (firstGood + secondGood + thirdGood == 0)
         {
             if(buyingTurn)
             {
+                skipping[1]++; //skipping buy
                 AddReward(-0.002f);
             }
             else
             {
+                skipping[0]++; //skipping sell
                 AddReward(-0.002f);
             }
         }
@@ -85,6 +99,7 @@ public class MLTrader : Agent
         if (newPlanet != planet && buyingTurn)
         {
             planet = newPlanet;
+            planetsTraveled[newPlanet]++;
             simplifiedInteractions.MoveToPlanet(transform, planet, flySpeed);
         }
 
@@ -92,16 +107,25 @@ public class MLTrader : Agent
         {
             if (StartingCredits != Credits) 
             {
-                if(StartingCredits > Credits)
+                if(StartingCredits < Credits)
                 {
                     //BigReward
+                    earnedCredits[2]++; //Earned
                 }
                 else
                 {
                     //SmallReward
+                    earnedCredits[0]++; //Lost
                 }
             }
+            else
+            {
+                earnedCredits[1]++; //Same credits
+            }
 
+            //Here sell remaining goods. 
+
+            tradeBalance += Credits - StartingCredits;
             EndEpisode();
         }
 
@@ -113,22 +137,24 @@ public class MLTrader : Agent
 
     public override void OnEpisodeBegin()
     {
+        //Clearing tables
         for(int i = 0; i < 9; i++)
         {
             tradingGoods[i].Quantity = 0;
         }
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++) 
         {
             boughtPrice[i] = 0;
             boughtAmount[i] = 0;
         }
-        cyclesCount = 0;
-        cyclesEnd = Random.Range(8, 20) * 2;
-        planet = Random.Range(0, 6);
-        tradingIndex = Random.Range(0, 7);
-        buyingTurn = true;
-        StartingCredits = 30000 + Random.Range(-10000, 10001);
+        //Setting values
+        cyclesCount = 0;                      //Counter of agent life
+        cyclesEnd = Random.Range(8, 20) * 2;  //How many turns agent will live
+        planet = Random.Range(0, 6);          //Starting planet
+        tradingIndex = Random.Range(0, 7);    //What goods it will trade
+        buyingTurn = true;                    //Always starts with buying turn
         Credits = StartingCredits;
-        simplifiedInteractions.MoveToPlanet(transform, planet, flySpeed);
+        StartingCredits = 30000 + Random.Range(-10000, 10001);              //Some random but big amount of starting credits
+        simplifiedInteractions.MoveToPlanet(transform, planet, flySpeed);   //Move agent ship to planet he is on
     }
 }
