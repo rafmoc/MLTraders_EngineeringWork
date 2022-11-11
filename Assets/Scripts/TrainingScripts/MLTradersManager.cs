@@ -20,7 +20,7 @@ public class MLTradersManager : MonoBehaviour
     private int MLAgentesActionCounter = 0;
     private int MLAgentesLogsCounter = 0;
 
-    //---- For chart only
+    //---- For logs only
     public int[] products = new int[9];
     public int[] picked = new int[3];
     public int[] earnedCredits = new int[3]; //0 - lost, 1 - same, 2 - earned
@@ -96,7 +96,7 @@ public class MLTradersManager : MonoBehaviour
             mLTrader.tradeBalance = 0;
         }
 
-        //TODO Here i need to save all this logs data to one instance gathering data from all managers.
+        Multi_MLLogs.Instance.WriteLogs(this);
     }
 
     IEnumerator MLAction()
