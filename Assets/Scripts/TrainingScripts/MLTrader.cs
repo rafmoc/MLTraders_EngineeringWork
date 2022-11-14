@@ -155,11 +155,12 @@ public class MLTrader : Agent
                 earnedCredits[1]++; //Same credits
             }
 
+            tradeBalance += Credits - StartingCredits;
+
             Sell(0 + tradingIndex, tradingGoods[0 + tradingIndex].Quantity);
             Sell(1 + tradingIndex, tradingGoods[1 + tradingIndex].Quantity);
             Sell(2 + tradingIndex, tradingGoods[2 + tradingIndex].Quantity);
 
-            tradeBalance += Credits - StartingCredits;
             EndEpisode();
         }
 
