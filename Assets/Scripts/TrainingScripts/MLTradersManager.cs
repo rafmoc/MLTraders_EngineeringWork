@@ -14,6 +14,8 @@ public class MLTradersManager : MonoBehaviour
     private SpaceTickSystem mLSpaceTickSystem;
     [SerializeField]
     private int numberOfTrainingCells;
+    [SerializeField]
+    private int numberOfTraderInTrainingCell;
 
     private List<MLTrader> MLTraders = new();
 
@@ -112,9 +114,9 @@ public class MLTradersManager : MonoBehaviour
         }
 
         // Making logs from time to time
-        // I want to have logs 10 times per 100 000 steps.
+        // I want to have logs 1 time per 100 000 steps.
         MLAgentesLogsCounter++;
-        if (MLAgentesLogsCounter >= 10000 / numberOfTrainingCells)
+        if (MLAgentesLogsCounter >= (100000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
         {
             MLAgentesLogsCounter = 0;
             WriteLogs();
