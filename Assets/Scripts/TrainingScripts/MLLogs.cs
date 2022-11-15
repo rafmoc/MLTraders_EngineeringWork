@@ -8,6 +8,9 @@ public class Multi_MLLogs : MonoBehaviour
     // ------
     public static Multi_MLLogs Instance { get; private set; }
 
+    [SerializeField]
+    private int numberOfTrainingCells;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -67,7 +70,7 @@ public class Multi_MLLogs : MonoBehaviour
         mLTrader.tradeBalance = 0;
 
         TimeForWriteToFIleCounter++;
-        if (TimeForWriteToFIleCounter >= 54)
+        if (TimeForWriteToFIleCounter >= numberOfTrainingCells) //Wait for data from all managers
         {
             TimeForWriteToFIleCounter = 0;
             WriteToFile();
