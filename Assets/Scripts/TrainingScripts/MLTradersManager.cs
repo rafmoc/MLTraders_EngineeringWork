@@ -105,9 +105,9 @@ public class MLTradersManager : MonoBehaviour
     {
         // Refreshing the whole environment from time to time.
         // I'm setting this to make referesh every 5000 steps.
-        // So it will be 5000 divided by number of training cells working at once because all of them are making steps.
+        // So it will be 1000 divided by number of training cells working at once because all of them are making steps.
         MLAgentesActionCounter++;
-        if(MLAgentesActionCounter >= 5000 / numberOfTrainingCells) 
+        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell) 
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
