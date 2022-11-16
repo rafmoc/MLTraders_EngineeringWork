@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
-public class Multi_MLLogs : MonoBehaviour
+public class MLLogs : MonoBehaviour
 {
     // This is Singleton pattern
     // ------
-    public static Multi_MLLogs Instance { get; private set; }
+    public static MLLogs Instance { get; private set; }
 
     [SerializeField]
     private int numberOfTrainingCells;

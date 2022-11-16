@@ -98,7 +98,7 @@ public class MLTradersManager : MonoBehaviour
             mLTrader.tradeBalance = 0;
         }
 
-        Multi_MLLogs.Instance.WriteLogs(this);
+        MLLogs.Instance.WriteLogs(this);
     }
 
     IEnumerator MLAction()
