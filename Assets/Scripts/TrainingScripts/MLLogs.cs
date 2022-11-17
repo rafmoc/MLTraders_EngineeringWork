@@ -2,11 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
-public class Multi_MLLogs : MonoBehaviour
+public class MLLogs : MonoBehaviour
 {
     // This is Singleton pattern
     // ------
-    public static Multi_MLLogs Instance { get; private set; }
+    public static MLLogs Instance { get; private set; }
+
+    [SerializeField]
+    private int numberOfTrainingCells;
 
     private void Awake()
     {
@@ -67,7 +70,7 @@ public class Multi_MLLogs : MonoBehaviour
         mLTrader.tradeBalance = 0;
 
         TimeForWriteToFIleCounter++;
-        if (TimeForWriteToFIleCounter >= 54)
+        if (TimeForWriteToFIleCounter >= numberOfTrainingCells) //Wait for data from all managers
         {
             TimeForWriteToFIleCounter = 0;
             WriteToFile();

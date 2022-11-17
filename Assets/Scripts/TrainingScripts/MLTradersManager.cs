@@ -14,6 +14,8 @@ public class MLTradersManager : MonoBehaviour
     private SpaceTickSystem mLSpaceTickSystem;
     [SerializeField]
     private int numberOfTrainingCells;
+    [SerializeField]
+    private int numberOfTraderInTrainingCell;
 
     private List<MLTrader> MLTraders = new();
 
@@ -96,25 +98,25 @@ public class MLTradersManager : MonoBehaviour
             mLTrader.tradeBalance = 0;
         }
 
-        Multi_MLLogs.Instance.WriteLogs(this);
+        MLLogs.Instance.WriteLogs(this);
     }
 
     IEnumerator MLAction()
     {
         // Refreshing the whole environment from time to time.
         // I'm setting this to make referesh every 5000 steps.
-        // So it will be 5000 divided by number of training cells working at once because all of them are making steps.
+        // So it will be 1000 divided by number of training cells working at once because all of them are making steps.
         MLAgentesActionCounter++;
-        if(MLAgentesActionCounter >= 5000 / numberOfTrainingCells) 
+        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell) 
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
         }
 
         // Making logs from time to time
-        // I want to have logs 10 times per 100 000 steps.
+        // I want to have logs 1 time per 100 000 steps.
         MLAgentesLogsCounter++;
-        if (MLAgentesLogsCounter >= 10000 / numberOfTrainingCells)
+        if (MLAgentesLogsCounter >= (100000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
         {
             MLAgentesLogsCounter = 0;
             WriteLogs();
