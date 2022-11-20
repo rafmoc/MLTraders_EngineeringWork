@@ -6,16 +6,12 @@ using UnityEngine;
 
 public class MLTradersManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject MLTradersParent;
-    [SerializeField]
-    private InitializeNewPlanetsData PlanetsData;
-    [SerializeField]
-    private SpaceTickSystem mLSpaceTickSystem;
-    [SerializeField]
-    private int numberOfTrainingCells;
-    [SerializeField]
-    private int numberOfTraderInTrainingCell;
+    [SerializeField] private GameObject MLTradersParent;
+    [SerializeField] private GameObject planetUIsParent;
+    [SerializeField] private InitializeNewPlanetsData PlanetsData;
+    [SerializeField] private SpaceTickSystem mLSpaceTickSystem;
+    [SerializeField] private int numberOfTrainingCells;
+    [SerializeField] private int numberOfTraderInTrainingCell;
 
     private List<MLTrader> MLTraders = new();
 
@@ -132,6 +128,10 @@ public class MLTradersManager : MonoBehaviour
             yield return new WaitForSeconds(0.0001f); // Giving more than enaugh time for prices update.
         }
         mLSpaceTickSystem.MakeTick(); // Global planets tick
+        foreach (Transform child in planetUIsParent.transform)//Update viusals
+        {
+            child.GetComponent<PlanetUI>().UpdatePlanetsUI();
+        }
         StartCoroutine(MLAction()); // Starting this coroutine again
     }
 }

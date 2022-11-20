@@ -8,8 +8,7 @@ public class MLLogs : MonoBehaviour
     // ------
     public static MLLogs Instance { get; private set; }
 
-    [SerializeField]
-    private int numberOfTrainingCells;
+    [SerializeField] private int numberOfTrainingCells;
 
     private void Awake()
     {
@@ -24,8 +23,7 @@ public class MLLogs : MonoBehaviour
     }
     // ------
 
-    [SerializeField]
-    private int LogCounter = 0;
+    [SerializeField] private int LogCounter = 0;
     private int headerCounter = 0;
 
     //---- For logs only

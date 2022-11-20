@@ -3,12 +3,9 @@ using UnityEngine;
 
 public class SpaceTickSystem : MonoBehaviour
 {
-    [SerializeField]
-    private PlanetsStats planetsData;
-    [SerializeField]
-    private int ticksToChange = 2;
-    [SerializeField]
-    private int ticksToChangeResource = 8;
+    [SerializeField] private PlanetsStats planetsData;
+    [SerializeField] private int ticksToChange = 2;
+    [SerializeField] private int ticksToChangeResource = 8;
     private int tick = 0;
     private int PlanetResourceTick = 0;
 
