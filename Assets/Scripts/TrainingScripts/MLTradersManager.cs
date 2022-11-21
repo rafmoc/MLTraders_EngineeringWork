@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MLTradersManager : MonoBehaviour
 {
+    public bool ResetPlanets = true;
     [SerializeField] private GameObject MLTradersParent;
     [SerializeField] private GameObject planetUIsParent;
     [SerializeField] private InitializeNewPlanetsData PlanetsData;
@@ -103,7 +104,7 @@ public class MLTradersManager : MonoBehaviour
         // I'm setting this to make referesh every 5000 steps.
         // So it will be 1000 divided by number of training cells working at once because all of them are making steps.
         MLAgentesActionCounter++;
-        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell) 
+        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell && ResetPlanets) 
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
