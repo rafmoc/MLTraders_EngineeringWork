@@ -51,6 +51,7 @@ public class MLTradersManager : MonoBehaviour
             }
         }
         PlanetsData.PlanetsData(); // Setting up planets
+        PlanetsData.planetsStats.SaveData(); //Save to check initial setup. Worthless when there is more than one training cell
         StartCoroutine(MLAction()); // Starting Agents Loop
     }
 

@@ -21,7 +21,7 @@ namespace Trade.PlanetsMechanics
         private void Start()
         {
             Random.InitState(RandomizingSeed);
-            PlanetsData();
+            //PlanetsData();
         }
 
         public void PlanetsData()
