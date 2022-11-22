@@ -10,10 +10,8 @@ using Random = UnityEngine.Random;
 public class MLTrader : Agent
 {
     public List<TradingGoods> tradingGoods = new();
-    [SerializeField]
-    private PlanetsStats planetsStats;
-    [SerializeField]
-    private SimplifiedInteractionsML simplifiedInteractions;
+    [SerializeField] private PlanetsStats planetsStats;
+    [SerializeField] private SimplifiedInteractionsML simplifiedInteractions;
     [Tooltip("0 - Resources, 3 - Supply, 6 - luxury")]
     public int tradingIndex;
 

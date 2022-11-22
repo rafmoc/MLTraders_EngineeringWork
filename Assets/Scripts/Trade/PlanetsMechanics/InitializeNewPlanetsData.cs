@@ -13,8 +13,7 @@ namespace Trade.PlanetsMechanics
         [Tooltip("Reference here an object that holds all tradable objects / planets as childs")]
         private GameObject TradeablePlanetsParent;
 
-        [SerializeField]
-        public PlanetsStats planetsStats;
+        [SerializeField] public PlanetsStats planetsStats;
 
         private List<Transform> tradableTransforms = new();
         private List<PlanetStats> planets = new();
@@ -22,7 +21,7 @@ namespace Trade.PlanetsMechanics
         private void Start()
         {
             Random.InitState(RandomizingSeed);
-            PlanetsData();
+            //PlanetsData();
         }
 
         public void PlanetsData()

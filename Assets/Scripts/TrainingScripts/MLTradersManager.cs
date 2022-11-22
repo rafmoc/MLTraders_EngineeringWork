@@ -6,16 +6,13 @@ using UnityEngine;
 
 public class MLTradersManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject MLTradersParent;
-    [SerializeField]
-    private InitializeNewPlanetsData PlanetsData;
-    [SerializeField]
-    private SpaceTickSystem mLSpaceTickSystem;
-    [SerializeField]
-    private int numberOfTrainingCells;
-    [SerializeField]
-    private int numberOfTraderInTrainingCell;
+    public bool ResetPlanets = true;
+    [SerializeField] private GameObject MLTradersParent;
+    [SerializeField] private GameObject planetUIsParent;
+    [SerializeField] private InitializeNewPlanetsData PlanetsData;
+    [SerializeField] private SpaceTickSystem mLSpaceTickSystem;
+    [SerializeField] private int numberOfTrainingCells;
+    [SerializeField] private int numberOfTraderInTrainingCell;
 
     private List<MLTrader> MLTraders = new();
 
@@ -54,6 +51,7 @@ public class MLTradersManager : MonoBehaviour
             }
         }
         PlanetsData.PlanetsData(); // Setting up planets
+        PlanetsData.planetsStats.SaveData(); //Save to check initial setup. Worthless when there is more than one training cell
         StartCoroutine(MLAction()); // Starting Agents Loop
     }
 
@@ -107,7 +105,7 @@ public class MLTradersManager : MonoBehaviour
         // I'm setting this to make referesh every 5000 steps.
         // So it will be 1000 divided by number of training cells working at once because all of them are making steps.
         MLAgentesActionCounter++;
-        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell) 
+        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell && ResetPlanets) 
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
@@ -132,6 +130,10 @@ public class MLTradersManager : MonoBehaviour
             yield return new WaitForSeconds(0.0001f); // Giving more than enaugh time for prices update.
         }
         mLSpaceTickSystem.MakeTick(); // Global planets tick
+        foreach (Transform child in planetUIsParent.transform)//Update viusals
+        {
+            child.GetComponent<PlanetUI>().UpdatePlanetsUI();
+        }
         StartCoroutine(MLAction()); // Starting this coroutine again
     }
 }
