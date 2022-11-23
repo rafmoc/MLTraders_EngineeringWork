@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8695765503041707658, guid: b273d0f9d4d5063438ca51c8c8a10e45, type: 3}
+      propertyPath: ResetPlanets
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8695765504224571730, guid: b273d0f9d4d5063438ca51c8c8a10e45, type: 3}
       propertyPath: m_Name
       value: TrainingCell (3)
@@ -342,6 +346,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8695765503041707658, guid: b273d0f9d4d5063438ca51c8c8a10e45, type: 3}
+      propertyPath: ResetPlanets
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8695765504224571730, guid: b273d0f9d4d5063438ca51c8c8a10e45, type: 3}
       propertyPath: m_Name
       value: TrainingCell (2)
@@ -399,6 +407,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8695765503041707658, guid: b273d0f9d4d5063438ca51c8c8a10e45, type: 3}
+      propertyPath: ResetPlanets
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8695765504224571730, guid: b273d0f9d4d5063438ca51c8c8a10e45, type: 3}
       propertyPath: m_Name
       value: TrainingCell
