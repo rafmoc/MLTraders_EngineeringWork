@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfTrainingCells: 9
-  LogCounter: 10
+  LogCounter: 0
   products: 000000000000000000000000000000000000000000000000000000000000000000000000
   picked: 000000000000000000000000
   earnedCredits: 000000000000000000000000
