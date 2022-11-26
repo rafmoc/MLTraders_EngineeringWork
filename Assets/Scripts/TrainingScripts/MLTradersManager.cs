@@ -109,6 +109,7 @@ public class MLTradersManager : MonoBehaviour
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
+            Debug.Log("Planets regenerated");
         }
 
         // Making logs from time to time
@@ -130,10 +131,15 @@ public class MLTradersManager : MonoBehaviour
             yield return new WaitForSeconds(0.0001f); // Giving more than enaugh time for prices update.
         }
         mLSpaceTickSystem.MakeTick(); // Global planets tick
-        foreach (Transform child in planetUIsParent.transform)//Update viusals
+
+        if(planetUIsParent)
         {
-            child.GetComponent<PlanetUI>().UpdatePlanetsUI();
+            foreach (Transform child in planetUIsParent.transform)//Update viusals
+            {
+                child.GetComponent<PlanetUI>().UpdatePlanetsUI();
+            }
         }
+        
         StartCoroutine(MLAction()); // Starting this coroutine again
     }
 }
