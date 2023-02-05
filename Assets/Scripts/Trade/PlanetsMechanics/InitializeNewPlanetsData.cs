@@ -55,19 +55,19 @@ namespace Trade.PlanetsMechanics
                 }
             }
 
-            int balancingCount = 8;
+            int balancingCount = 6;
 
             foreach (Transform tradeableTransform in tradableTransforms)
             {
-                balancingCount -= 2;
+                balancingCount--;
                 if (balancingCount > 0)
                 {
                     for (int i = 0; i < goodsCount; i++)
                     {
                         if (tab[i] % 2 == 0)
                         {
-                            planets[planetsCount].goodsProduction[i].Value -= tab[i] / balancingCount;
-                            tab[i] -= tab[i] / balancingCount;
+                            planets[planetsCount].goodsProduction[i].Value -= tab[i] / 2;
+                            tab[i] -= tab[i] / 2;
                         }
                         else
                         {
@@ -177,7 +177,7 @@ namespace Trade.PlanetsMechanics
 
                 //Here we add resources to all planets with specific amount and common price.
                 planets[planetsCount].tradingGoods.AddAll(new List<TradingGoods>
-            {
+                {
                 new TradingGoods(Goods.Iron,           Random.Range(oresModifier, 10 * oresModifier), 50),
                 new TradingGoods(Goods.Copper,         Random.Range(oresModifier, 10 * oresModifier), 75),
                 new TradingGoods(Goods.Coal,           Random.Range(oresModifier, 10 * oresModifier), 150),
@@ -187,12 +187,12 @@ namespace Trade.PlanetsMechanics
                 new TradingGoods(Goods.RareMetals,     Random.Range(rareOresModifier, 10 * rareOresModifier), 800),
                 new TradingGoods(Goods.HighEnergyFuel, Random.Range(technologyModifier, 10 * technologyModifier), 1200),
                 new TradingGoods(Goods.RawCrystals,    Random.Range(rawCrystalsModifier, 10 * rawCrystalsModifier), 2000)
-            });
+                });
 
                 //Here we define production on planet. Every planet tick planet will lose or get specific amount of resources randomized here
                 //This simulate static planets needs. Can be combined or repleaced by some buildings / factorys system
                 planets[planetsCount].goodsProduction.AddAll(new List<GoodsProduction>
-            {
+                {
                 new GoodsProduction(Goods.Iron,           Random.Range(-6, 6)),
                 new GoodsProduction(Goods.Copper,         Random.Range(-6, 6)),
                 new GoodsProduction(Goods.Coal,           Random.Range(-5, 5)),
@@ -202,7 +202,7 @@ namespace Trade.PlanetsMechanics
                 new GoodsProduction(Goods.RareMetals,     TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 60), new TradeRandom.RandomWithChance(-2, 2, 40))),
                 new GoodsProduction(Goods.HighEnergyFuel, TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 70), new TradeRandom.RandomWithChance(-1, 1, 30))),
                 new GoodsProduction(Goods.RawCrystals,    TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 80), new TradeRandom.RandomWithChance(-1, 1, 20)))
-            });
+                });
 
                 //For every resource in planet
                 for (int i = 0; i < planets[planetsCount].tradingGoods.Count; i++)
