@@ -26,7 +26,13 @@ public class SpaceTickSystem : MonoBehaviour
 
     private void PlanetTick()
     {
-        foreach(PlanetStats planet in planetsData.planets)
+        if (PlanetResourceTick >= ticksToChangeResource)
+        {
+            PlanetResourceTick = 0;
+        }
+        PlanetResourceTick++;
+
+        foreach (PlanetStats planet in planetsData.planets)
         {
             planet.planetCredits += (int)(Random.Range(10, 100) + Random.Range(1, 5) * planet.technologyModifier + Mathf.Sqrt(planet.population));
             planet.population += (long)(Mathf.Sqrt(planet.population));
@@ -34,11 +40,9 @@ public class SpaceTickSystem : MonoBehaviour
             //TradingGoods production and consumption
             for (int i = 0; i < planet.tradingGoods.Count; i++)
             {
-                PlanetResourceTick++;
                 if (PlanetResourceTick >= ticksToChangeResource)
                 {
                     planet.tradingGoods[i].Quantity += planet.goodsProduction[i].Value;
-                    PlanetResourceTick = 0;
                 }
 
                 if (planet.tradingGoods[i].Quantity < 0)
