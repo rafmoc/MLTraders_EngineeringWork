@@ -139,12 +139,12 @@ public class MLTrader : Agent
                 if(StartingCredits < Credits)
                 {
                     AddReward(0.4f);
-                    AddReward(0.05f * (int)((Credits - StartingCredits) / 200));
+                    AddReward(0.05f * (Credits - StartingCredits) / 200);
                     earnedCredits[2]++; //Earned
                 }
                 else
                 {
-                    AddReward(0.1f - Mathf.Clamp(0.005f * (int)((StartingCredits - Credits) / 200), -100f, 0.2f));
+                    AddReward(0.1f - Mathf.Clamp((StartingCredits - Credits) / 200, 0f, 0.6f));
                     earnedCredits[0]++; //Lost
                 }
             }
@@ -163,7 +163,8 @@ public class MLTrader : Agent
         }
 
         //Some sort of static fee. For fuel, workers, ect.
-        if (Credits > 200) { Credits -= 500 / cyclesEnd; }
+        Credits -= 1000 / cyclesEnd;
+        if(Credits < 0) { Credits = 0; }
 
         buyingTurn = buyingTurn == true ? false : true;
     }
@@ -186,8 +187,8 @@ public class MLTrader : Agent
         planet = Random.Range(0, 6);          //Starting planet
         tradingIndex = Random.Range(0, 7);    //What goods it will trade
         buyingTurn = true;                    //Always starts with buying turn
-        Credits = StartingCredits;
         StartingCredits = 30000 + Random.Range(-10000, 10001);              //Some random but big amount of starting credits
+        Credits = StartingCredits;
         simplifiedInteractions.MoveToPlanet(transform, planet, flySpeed);   //Move agent ship to planet he is on
     }
 

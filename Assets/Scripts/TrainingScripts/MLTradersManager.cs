@@ -102,10 +102,10 @@ public class MLTradersManager : MonoBehaviour
     IEnumerator MLAction()
     {
         // Refreshing the whole environment from time to time.
-        // I'm setting this to make referesh every 5000 steps.
-        // So it will be 1000 divided by number of training cells working at once because all of them are making steps.
+        // I'm setting this to make referesh every X steps.
+        // So it will be X divided by number of training cells working at once because all of them are making steps.
         MLAgentesActionCounter++;
-        if(MLAgentesActionCounter >= 1000 / numberOfTraderInTrainingCell && ResetPlanets) 
+        if((MLAgentesActionCounter >= 5000 / numberOfTraderInTrainingCell) && ResetPlanets) 
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
@@ -113,9 +113,9 @@ public class MLTradersManager : MonoBehaviour
         }
 
         // Making logs from time to time
-        // I want to have logs 1 time per 100 000 steps.
+        // I want to have logs 1 time per X steps.
         MLAgentesLogsCounter++;
-        if (MLAgentesLogsCounter >= (100000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
+        if (MLAgentesLogsCounter >= (10000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
         {
             MLAgentesLogsCounter = 0;
             WriteLogs();
