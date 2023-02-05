@@ -43,7 +43,8 @@ namespace Trade.TradeUtils
                     return Random.Range(selection.min, selection.max + 1);
                 }
             }
-            return -404;
+            Debug.LogWarning("Wrong Random Sum");
+            return -1;
         }
     }
 
