@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "695520221444",
+    "project_id": "mltraders",
+    "storage_bucket": "mltraders.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695520221444:android:ec439f64cd6e12e8825851",
+        "android_client_info": {
+          "package_name": "com.RafalEngiWork.MLTraders"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJPqfyRrzpaDQ73fg6zbI33wmi0NKLzU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
