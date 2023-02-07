@@ -197,11 +197,11 @@ namespace Trade.PlanetsMechanics
                 new GoodsProduction(Goods.Copper,         Random.Range(-6, 6)),
                 new GoodsProduction(Goods.Coal,           Random.Range(-5, 5)),
                 new GoodsProduction(Goods.Food,           Random.Range(-5, 5)),
-                new GoodsProduction(Goods.Water,          TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 40), new TradeRandom.RandomWithChance(-4, 4, 60))),
-                new GoodsProduction(Goods.Medicine,       TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 50), new TradeRandom.RandomWithChance(-2, 2, 50))),
-                new GoodsProduction(Goods.RareMetals,     TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 60), new TradeRandom.RandomWithChance(-2, 2, 40))),
-                new GoodsProduction(Goods.HighEnergyFuel, TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 70), new TradeRandom.RandomWithChance(-1, 1, 30))),
-                new GoodsProduction(Goods.RawCrystals,    TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(0, 0, 80), new TradeRandom.RandomWithChance(-1, 1, 20)))
+                new GoodsProduction(Goods.Water,          TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(-1, 1, 40), new TradeRandom.RandomWithChance(-4, 4, 60))),
+                new GoodsProduction(Goods.Medicine,       TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(-1, 1, 50), new TradeRandom.RandomWithChance(-3, 3, 50))),
+                new GoodsProduction(Goods.RareMetals,     TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(-1, 1, 60), new TradeRandom.RandomWithChance(-3, 3, 40))),
+                new GoodsProduction(Goods.HighEnergyFuel, TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(-1, 1, 70), new TradeRandom.RandomWithChance(-2, 2, 30))),
+                new GoodsProduction(Goods.RawCrystals,    TradeRandom.RandomRangeChance(new TradeRandom.RandomWithChance(-1, 1, 80), new TradeRandom.RandomWithChance(-2, 2, 20)))
                 });
 
                 //For every resource in planet

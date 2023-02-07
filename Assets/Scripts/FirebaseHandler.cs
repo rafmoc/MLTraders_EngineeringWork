@@ -38,11 +38,11 @@ public class FirebaseHandler : MonoBehaviour
         FirebaseFirestore FireDatabase = FirebaseFirestore.DefaultInstance;
         if (isTestRun)
         {
-            docRef = FireDatabase.Collection(DeviceName).Document("Clear" + Steps);
+            docRef = FireDatabase.Collection("Test" + DeviceName).Document();
         }
         else
         {
-            docRef = FireDatabase.Collection(DeviceName).Document("PostProcessing" + Steps);
+            docRef = FireDatabase.Collection("Training" + DeviceName).Document();
         }
         Dictionary<string, int> data = new Dictionary<string, int> { };
 
@@ -53,5 +53,4 @@ public class FirebaseHandler : MonoBehaviour
 
         docRef.SetAsync(data).ContinueWithOnMainThread(task => { Debug.Log("Data sent"); });
     }
-
 }

@@ -869,6 +869,7 @@ MonoBehaviour:
   mLSpaceTickSystem: {fileID: 300654083}
   numberOfTrainingCells: 1
   numberOfTraderInTrainingCell: 10
+  trueSteps: 0
   products: 000000000000000000000000000000000000000000000000000000000000000000000000
   picked: 000000000000000000000000
   earnedCredits: 000000000000000000000000
@@ -4998,8 +4999,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d97177ab8499345af9d8dc6751016f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfTrainingCells: 3
+  numberOfTrainingCells: 1
   LogCounter: 0
+  trueSteps: 0
   products: 000000000000000000000000000000000000000000000000000000000000000000000000
   picked: 000000000000000000000000
   earnedCredits: 000000000000000000000000
@@ -7747,8 +7749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeviceName: Test
-  isClearRun: 1
-  Iteration: 0
+  isTestRun: 0
 --- !u!4 &887942608
 Transform:
   m_ObjectHideFlags: 0

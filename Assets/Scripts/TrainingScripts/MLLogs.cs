@@ -27,6 +27,7 @@ public class MLLogs : MonoBehaviour
     private int headerCounter = 0;
 
     //---- For logs only
+    public int trueSteps = 0;
     public int[] products = new int[9];
     public int[] picked = new int[3];
     public int[] earnedCredits = new int[3]; //0 - lost, 1 - same, 2 - earned
@@ -40,6 +41,8 @@ public class MLLogs : MonoBehaviour
 
     public void WriteLogs(MLTradersManager mLTrader)
     {
+        trueSteps += mLTrader.trueSteps;
+        mLTrader.trueSteps = 0;
         for (int i = 0; i < 9; i++)
         {
             products[i] += mLTrader.products[i];
@@ -72,6 +75,7 @@ public class MLLogs : MonoBehaviour
         {
             TimeForWriteToFIleCounter = 0;
             WriteToFile();
+            //firestore
             ClearVariables();
         }
     }
@@ -79,6 +83,7 @@ public class MLLogs : MonoBehaviour
     private void ClearVariables()
     {
         //---- For chart only
+        trueSteps = 0;
         products = new int[9];
         picked = new int[3];
         earnedCredits = new int[3]; //0 - lost, 1 - same, 2 - earned
@@ -91,8 +96,8 @@ public class MLLogs : MonoBehaviour
 
     private void WriteToFile()
     {
+        int steps = trueSteps + (trueSteps * LogCounter);
         LogCounter++;
-        int steps = 100000 * LogCounter;
 
         string header = "\n\nSteps Product0 Product1 Product2 Product3 Product4 Product5 Product6 Product7 Product8 " +
                 "Picked0 Picked1 Picked2 " +

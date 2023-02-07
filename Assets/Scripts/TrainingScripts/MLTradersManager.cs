@@ -17,9 +17,9 @@ public class MLTradersManager : MonoBehaviour
     private List<MLTrader> MLTraders = new();
 
     private int MLAgentesActionCounter = 0;
-    private int MLAgentesLogsCounter = 0;
 
     //---- For logs only
+    public int trueSteps = 0;
     public int[] products = new int[9];
     public int[] picked = new int[3];
     public int[] earnedCredits = new int[3]; //0 - lost, 1 - same, 2 - earned
@@ -68,7 +68,7 @@ public class MLTradersManager : MonoBehaviour
         //----
         foreach (MLTrader mLTrader in MLTraders)
         {
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++)
             {
                 products[i] += mLTrader.products[i];
                 mLTrader.products[i] = 0;
@@ -97,6 +97,7 @@ public class MLTradersManager : MonoBehaviour
         }
 
         MLLogs.Instance.WriteLogs(this);
+        trueSteps = 0;
     }
 
     IEnumerator MLAction()
@@ -114,10 +115,8 @@ public class MLTradersManager : MonoBehaviour
 
         // Making logs from time to time
         // I want to have logs 1 time per X steps.
-        MLAgentesLogsCounter++;
-        if (MLAgentesLogsCounter >= (10000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
+        if (trueSteps >= (100000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
         {
-            MLAgentesLogsCounter = 0;
             WriteLogs();
         }
 
@@ -127,6 +126,7 @@ public class MLTradersManager : MonoBehaviour
         {
             // Request decision means going throug steps: observation -> (masking) -> decision -> action -> reward
             mLTrader.RequestDecision();
+            trueSteps++;
             mLSpaceTickSystem.PricesUpdate(); // Updating prices after every agent as they can be on the same planet
             yield return new WaitForSeconds(0.0001f); // Giving more than enaugh time for prices update.
         }
