@@ -7,12 +7,16 @@ using UnityEngine;
 public class MLTradersManager : MonoBehaviour
 {
     public bool ResetPlanets = true;
+    [SerializeField] private int stepsPerPlanetsReset = 5000;
+    [SerializeField] private int stepsPerLog = 100000;
+
     [SerializeField] private GameObject MLTradersParent;
     [SerializeField] private GameObject planetUIsParent;
     [SerializeField] private InitializeNewPlanetsData PlanetsData;
     [SerializeField] private SpaceTickSystem mLSpaceTickSystem;
     [SerializeField] private int numberOfTrainingCells;
     [SerializeField] private int numberOfTraderInTrainingCell;
+    
 
     private List<MLTrader> MLTraders = new();
 
@@ -106,7 +110,7 @@ public class MLTradersManager : MonoBehaviour
         // I'm setting this to make referesh every X steps.
         // So it will be X divided by number of training cells working at once because all of them are making steps.
         MLAgentesActionCounter++;
-        if((MLAgentesActionCounter >= 5000 / numberOfTraderInTrainingCell) && ResetPlanets) 
+        if((MLAgentesActionCounter >= stepsPerPlanetsReset / numberOfTraderInTrainingCell) && ResetPlanets) 
         {
             MLAgentesActionCounter = 0;
             PlanetsData.PlanetsData(); // Generate new, fresh planets data
@@ -115,7 +119,7 @@ public class MLTradersManager : MonoBehaviour
 
         // Making logs from time to time
         // I want to have logs 1 time per X steps.
-        if (trueSteps >= (100000 / numberOfTraderInTrainingCell ) / numberOfTrainingCells)
+        if (trueSteps >= stepsPerLog / numberOfTrainingCells)
         {
             WriteLogs();
         }

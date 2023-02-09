@@ -74,8 +74,8 @@ public class MLLogs : MonoBehaviour
         if (TimeForWriteToFIleCounter >= numberOfTrainingCells) //Wait for data from all managers
         {
             TimeForWriteToFIleCounter = 0;
+            WriteToFireStore();
             WriteToFile();
-            //firestore
             ClearVariables();
         }
     }
@@ -92,6 +92,21 @@ public class MLLogs : MonoBehaviour
         failedBuy = 0;
         tradeBalance = 0;
         //----
+    }
+
+    private void WriteToFireStore()
+    {
+        Dictionary<string, int> logData = new();
+
+        logData.Add("True Steps", trueSteps);
+        logData.Add("Earned Credits", earnedCredits[2]);
+        logData.Add("Same Credits", earnedCredits[1]);
+        logData.Add("Lost Credits", earnedCredits[0]);
+        logData.Add("Credits Balance", tradeBalance);
+
+        int steps = trueSteps + (trueSteps * LogCounter);
+
+        FirebaseHandler.Instance.SendDataToFireBase(logData, steps);
     }
 
     private void WriteToFile()
