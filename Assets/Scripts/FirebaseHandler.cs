@@ -12,6 +12,9 @@ public class FirebaseHandler : MonoBehaviour
 
     private DocumentReference docRef;
 
+    private long timestamp = 0;
+    private int runId = 0;
+
     public static FirebaseHandler Instance { get; private set; }
     private void Awake()
     {
@@ -26,31 +29,32 @@ public class FirebaseHandler : MonoBehaviour
         }
     }
 
-    public void Start()
+    private void Start()
     {
-        Dictionary<string, int> testDic = new();
-        testDic.Add("Test", 1);
-        SendDataToFireBase(testDic, 10);
+        timestamp = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
+        runId++;
     }
 
-    public void SendDataToFireBase(Dictionary<string, int> scores, int Steps)
+    public void SendDataToFireBase(Dictionary<string, int> logsData, int Steps)
     {
         FirebaseFirestore FireDatabase = FirebaseFirestore.DefaultInstance;
         if (isTestRun)
         {
-            docRef = FireDatabase.Collection("Test" + DeviceName).Document();
+            //SystemInfo.deviceUniqueIdentifier
+            docRef = FireDatabase.Collection("Test_" + DeviceName).Document(timestamp + "_" + runId + "_" + Steps);
         }
         else
         {
-            docRef = FireDatabase.Collection("Training" + DeviceName).Document();
+            //SystemInfo.deviceUniqueIdentifier
+            docRef = FireDatabase.Collection("Training_" + DeviceName).Document(timestamp + "_" + Steps);
         }
-        Dictionary<string, int> data = new Dictionary<string, int> { };
+        /*Dictionary<string, int> data = new Dictionary<string, int> { };
 
-        foreach (KeyValuePair<string, int> score in scores)
+        foreach (KeyValuePair<string, int> score in logsData)
         {
             data.Add(score.Key, score.Value);
-        }
+        }*/
 
-        docRef.SetAsync(data).ContinueWithOnMainThread(task => { Debug.Log("Data sent"); });
+        docRef.SetAsync(logsData).ContinueWithOnMainThread(task => { Debug.Log("Data sent"); });
     }
 }
