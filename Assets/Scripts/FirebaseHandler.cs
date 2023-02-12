@@ -48,13 +48,9 @@ public class FirebaseHandler : MonoBehaviour
             //SystemInfo.deviceUniqueIdentifier
             docRef = FireDatabase.Collection("Training_" + DeviceName).Document(timestamp + "_" + Steps);
         }
-        /*Dictionary<string, int> data = new Dictionary<string, int> { };
-
-        foreach (KeyValuePair<string, int> score in logsData)
-        {
-            data.Add(score.Key, score.Value);
-        }*/
 
         docRef.SetAsync(logsData).ContinueWithOnMainThread(task => { Debug.Log("Data sent"); });
     }
+
+    
 }
