@@ -11,7 +11,9 @@ public class FirebaseHandler : MonoBehaviour
     public bool isTestRun;
 
     private DocumentReference docRef;
+    private FirebaseFirestore FireDatabase;
 
+    private string runType;
     private long timestamp = 0;
     private int runId = 0;
 
@@ -37,20 +39,32 @@ public class FirebaseHandler : MonoBehaviour
 
     public void SendDataToFireBase(Dictionary<string, int> logsData, int Steps)
     {
-        FirebaseFirestore FireDatabase = FirebaseFirestore.DefaultInstance;
+        FireDatabase = FirebaseFirestore.DefaultInstance;
+
+        runType = isTestRun ? "Test_" : "Training_";
+
         if (isTestRun)
         {
             //SystemInfo.deviceUniqueIdentifier
-            docRef = FireDatabase.Collection("Test_" + DeviceName).Document(timestamp + "_" + runId + "_" + Steps);
+            docRef = FireDatabase.Collection(runType + DeviceName).Document(timestamp + "_" + runId + "_" + Steps);
         }
         else
         {
             //SystemInfo.deviceUniqueIdentifier
-            docRef = FireDatabase.Collection("Training_" + DeviceName).Document(timestamp + "_" + Steps);
+            docRef = FireDatabase.Collection(runType + DeviceName).Document(timestamp + "_" + Steps);
         }
 
         docRef.SetAsync(logsData).ContinueWithOnMainThread(task => { Debug.Log("Data sent"); });
+        UpdateFireBaseCollectionsCollection();
     }
 
-    
+    private void UpdateFireBaseCollectionsCollection()
+    {
+        docRef = FireDatabase.Collection("_uniqCollectionsList").Document(runType + DeviceName);
+
+        Dictionary<string, string> data = new();
+        data.Add(timestamp.ToString(), runType + DeviceName);
+
+        docRef.SetAsync(data).ContinueWithOnMainThread(task => { Debug.Log("Unique list updated"); });
+    }
 }
