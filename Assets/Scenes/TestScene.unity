@@ -863,7 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResetPlanets: 0
-  stepsPerPlanetsReset: 5000
+  stepsPerPlanetsReset: 500
   stepsPerLog: 10000
   MLTradersParent: {fileID: 1027764133}
   planetUIsParent: {fileID: 1456478881}
@@ -7750,7 +7750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382cfc8b1b445984ca0510a5241b4ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeviceName: PC
+  DeviceName: PC3
   isTestRun: 1
 --- !u!4 &887942608
 Transform:

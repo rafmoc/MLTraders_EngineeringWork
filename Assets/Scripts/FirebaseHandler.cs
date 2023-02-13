@@ -60,11 +60,11 @@ public class FirebaseHandler : MonoBehaviour
 
     private void UpdateFireBaseCollectionsCollection()
     {
-        docRef = FireDatabase.Collection("_uniqCollectionsList").Document(runType + DeviceName);
+        docRef = FireDatabase.Collection("uniqCollections").Document("List");
 
-        Dictionary<string, string> data = new();
-        data.Add(timestamp.ToString(), runType + DeviceName);
+        Dictionary<string, object> data = new();
+        data.Add(runType + DeviceName, timestamp.ToString());
 
-        docRef.SetAsync(data).ContinueWithOnMainThread(task => { Debug.Log("Unique list updated"); });
+        docRef.UpdateAsync(data).ContinueWithOnMainThread(task => { Debug.Log("Unique list updated"); });
     }
 }
