@@ -15,7 +15,6 @@ public class FirebaseHandler : MonoBehaviour
 
     private string runType;
     private long timestamp = 0;
-    private int runId = 0;
 
     public static FirebaseHandler Instance { get; private set; }
     private void Awake()
@@ -34,7 +33,6 @@ public class FirebaseHandler : MonoBehaviour
     private void Start()
     {
         timestamp = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
-        runId++;
     }
 
     public void SendDataToFireBase(Dictionary<string, int> logsData, int Steps)
@@ -43,16 +41,8 @@ public class FirebaseHandler : MonoBehaviour
 
         runType = isTestRun ? "Test_" : "Training_";
 
-        if (isTestRun)
-        {
-            //SystemInfo.deviceUniqueIdentifier
-            docRef = FireDatabase.Collection(runType + DeviceName).Document(timestamp + "_" + runId + "_" + Steps);
-        }
-        else
-        {
-            //SystemInfo.deviceUniqueIdentifier
-            docRef = FireDatabase.Collection(runType + DeviceName).Document(timestamp + "_" + Steps);
-        }
+        //SystemInfo.deviceUniqueIdentifier
+        docRef = FireDatabase.Collection(runType + DeviceName).Document(timestamp + "_" + Steps);
 
         docRef.SetAsync(logsData).ContinueWithOnMainThread(task => { Debug.Log("Data sent"); });
         UpdateFireBaseCollectionsCollection();
