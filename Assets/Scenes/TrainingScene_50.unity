@@ -1205,7 +1205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382cfc8b1b445984ca0510a5241b4ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeviceName: BigBrain_2048bs_5x1024
+  DeviceName: PC3_SASsecondTry_512b_5x128
   isTestRun: 0
 --- !u!4 &605104213
 Transform:
